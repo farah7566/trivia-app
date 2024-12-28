@@ -5,8 +5,12 @@ const PORT = 3000;
 
 app.use(express.static('public'));
 
+// API route to fetch trivia questions based on selected difficulty
 app.get('/trivia', async (req, res) => {
-  const url = 'https://opentdb.com/api.php?amount=10&category=18&difficulty=easy';
+  // Get the difficulty from query parameters (default to 'easy')
+  const difficulty = req.query.difficulty || 'easy';
+  const url = `https://opentdb.com/api.php?amount=10&category=18&difficulty=${difficulty}`;
+
   try {
     const response = await axios.get(url);
     res.json(response.data.results);

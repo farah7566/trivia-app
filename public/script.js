@@ -9,10 +9,11 @@ let currentQuestionIndex = 0;
 let isAnswerRevealed = false;
 
 // Fetch trivia questions from the backend
-async function fetchQuestions() {
+async function fetchQuestions(difficulty) {
   try {
-    const response = await fetch('/trivia');
+    const response = await fetch(`/trivia?difficulty=${difficulty}`);
     triviaQuestions = await response.json();
+    currentQuestionIndex = 0; // Reset to first question
     displayQuestion();
   } catch (error) {
     console.error("Error fetching trivia questions:", error);
@@ -92,5 +93,11 @@ nextButton.addEventListener("click", () => {
   }
 });
 
-// Load questions on page load
-fetchQuestions();
+// Event listener for difficulty selection
+document.getElementById('difficulty').addEventListener('change', (event) => {
+  const selectedDifficulty = event.target.value;
+  fetchQuestions(selectedDifficulty); // Fetch new questions based on selected difficulty
+});
+
+// Load questions with default difficulty (easy)
+fetchQuestions('easy');
