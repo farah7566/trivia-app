@@ -14,7 +14,12 @@ loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const username = usernameInput.value;
 
+  let triviaQuestions = [];
+  let currentQuestionIndex = 0;
+  let isAnswerRevealed = false;
+
   try {
+    // Make the API call to verify login
     const response = await fetch('/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -24,17 +29,19 @@ loginForm.addEventListener("submit", async (event) => {
     const data = await response.json();
 
     if (data.success) {
+      // Hide the login form and show the difficulty container
       loginContainer.classList.add("hidden");
       difficultyContainer.classList.remove("hidden");
-      fetchQuestions('easy'); // Automatically load easy questions after login
+      
+      // Automatically load easy questions after login
+      fetchQuestions('easy');
     } else {
+      // Show error if login fails
       loginError.classList.remove("hidden");
-      loginError.textContent = data.message; // Display error message from server
     }
   } catch (error) {
     console.error("Error during login:", error);
     loginError.classList.remove("hidden");
-    loginError.textContent = 'Server error, please try again later.';
   }
 });
 
@@ -66,6 +73,9 @@ function displayQuestion() {
     li.addEventListener("click", () => handleAnswerClick(answer, question.correct_answer, li));
     optionsElement.appendChild(li);
   });
+
+  // Toggle to show the trivia question container
+  questionContainer.classList.remove("hidden");
 }
 
 // Handle answer click
