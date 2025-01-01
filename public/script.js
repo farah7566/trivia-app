@@ -3,10 +3,40 @@ const optionsElement = document.getElementById("options");
 const revealButton = document.getElementById("reveal-btn");
 const nextButton = document.getElementById("next-btn");
 const answerElement = document.getElementById("answer");
+const loginForm = document.getElementById("login-form");
+const usernameInput = document.getElementById("username");
+const loginError = document.getElementById("login-error");
+const loginContainer = document.getElementById("login-container");
+const difficultyContainer = document.getElementById("difficulty-container");
+const questionContainer = document.getElementById("question-container");
 
-let triviaQuestions = [];
-let currentQuestionIndex = 0;
-let isAnswerRevealed = false;
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const username = usernameInput.value;
+
+  try {
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      loginContainer.classList.add("hidden");
+      difficultyContainer.classList.remove("hidden");
+      fetchQuestions('easy'); // Automatically load easy questions after login
+    } else {
+      loginError.classList.remove("hidden");
+      loginError.textContent = data.message; // Display error message from server
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    loginError.classList.remove("hidden");
+    loginError.textContent = 'Server error, please try again later.';
+  }
+});
 
 // Fetch trivia questions from the backend
 async function fetchQuestions(difficulty) {
