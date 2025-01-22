@@ -1,0 +1,13 @@
+config:
+  target: 'http://trivia-appone-trivia-app.apps.eu46r.prod.ole.redhat.com/'  # Replace with your OpenShift app URL
+  phases:
+    - duration: 60  # Test duration in seconds
+      arrivalRate: 5  # New virtual users every second
+scenarios:
+  - flow:
+      - get:
+          url: "/trivia?difficulty=easy"
+      - get:
+          url: "/trivia?difficulty=medium"
+      - get:
+          url: "/trivia?difficulty=hard"
