@@ -3,47 +3,12 @@ const optionsElement = document.getElementById("options");
 const revealButton = document.getElementById("reveal-btn");
 const nextButton = document.getElementById("next-btn");
 const answerElement = document.getElementById("answer");
-const loginForm = document.getElementById("login-form");
-const usernameInput = document.getElementById("username");
-const loginError = document.getElementById("login-error");
-const loginContainer = document.getElementById("login-container");
 const difficultyContainer = document.getElementById("difficulty-container");
 const questionContainer = document.getElementById("question-container");
 
-loginForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const username = usernameInput.value;
-
-  let triviaQuestions = [];
-  let currentQuestionIndex = 0;
-  let isAnswerRevealed = false;
-
-  try {
-    // Make the API call to verify login
-    const response = await fetch('/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username })
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      // Hide the login form and show the difficulty container
-      loginContainer.classList.add("hidden");
-      difficultyContainer.classList.remove("hidden");
-      
-      // Automatically load easy questions after login
-      fetchQuestions('easy');
-    } else {
-      // Show error if login fails
-      loginError.classList.remove("hidden");
-    }
-  } catch (error) {
-    console.error("Error during login:", error);
-    loginError.classList.remove("hidden");
-  }
-});
+let triviaQuestions = [];
+let currentQuestionIndex = 0;
+let isAnswerRevealed = false;
 
 // Fetch trivia questions from the backend
 async function fetchQuestions(difficulty) {
