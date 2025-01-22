@@ -17,11 +17,13 @@ async function fetchQuestions(difficulty) {
     triviaQuestions = await response.json();
     currentQuestionIndex = 0; // Reset to first question
     displayQuestion();
+    
+    // Make the difficulty container visible
+    difficultyContainer.classList.remove("hidden");
   } catch (error) {
     console.error("Error fetching trivia questions:", error);
   }
 }
-
 // Display the current question
 function displayQuestion() {
   const question = triviaQuestions[currentQuestionIndex];
