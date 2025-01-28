@@ -50,25 +50,25 @@ Installation & Deployment
 
 2. Build and Push the Container Image
 
-docker build -t trivia-app:latest .
+`docker build -t trivia-app:latest .`
 
 3. Log in to OpenShift and Create a New Project
 
-oc login --token=YOUR_ACCESS_TOKEN --server=YOUR_OPENSHIFT_CLUSTER
-oc new-project trivia-app
+`oc login --token=YOUR_ACCESS_TOKEN --server=YOUR_OPENSHIFT_CLUSTER`
+`oc new-project trivia-app`
 
 4. Deploy the Application
 
-oc new-app trivia-app:latest --name=trivia-app
+`oc new-app trivia-app:latest --name=trivia-app`
 
 5. Expose the Application Route
 
-oc expose svc/trivia-app --hostname=trivia-app.YOUR_DOMAIN.com
+`oc expose svc/trivia-app --hostname=trivia-app.YOUR_DOMAIN.com`
 
 6. Verify the Deployment
 
-oc get pods
-oc get routes
+`oc get pods`
+`oc get routes`
 
 Troubleshooting
 
